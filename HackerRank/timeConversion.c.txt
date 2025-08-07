@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <string.h>
+
+char* timeConversion(char* s) {
+    static char result[9];
+    int hour;
+    sscanf(s, "%2d", &hour);
+    if (s[8] == 'A' && hour == 12) {
+        hour = 0;
+    } else if (s[8] == 'P' && hour != 12) {
+        hour += 12;
+    }
+    snprintf(result, sizeof(result), "%02d:%c%c:%c%c", hour, s[3], s[4], s[6], s[7]);
+
+    return result;
+}
+
+int main() {
+    char s[11];
+    scanf("%s", s);
+
+    char* result = timeConversion(s);
+    printf("%s\n", result);
+
+    return 0;
+}
