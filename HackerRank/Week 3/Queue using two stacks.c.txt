@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100000
+
+// Define two stacks
+long long stack1[MAX], stack2[MAX];
+int top1 = -1, top2 = -1;
+
+// Stack operations
+void push1(long long x) { stack1[++top1] = x; }
+void push2(long long x) { stack2[++top2] = x; }
+
+long long pop1() { return stack1[top1--]; }
+long long pop2() { return stack2[top2--]; }
+
+int isEmpty1() { return top1 == -1; }
+int isEmpty2() { return top2 == -1; }
+
+long long peek2() { return stack2[top2]; }
+
+// Move all elements from stack1 to stack2
+void shiftStacks() {
+    while (!isEmpty1()) {
+        push2(pop1());
+    }
+}
+
+int main() {
+    int q;
+    scanf("%d", &q);
+
+    while (q--) {
+        int type;
+        scanf("%d", &type);
+
+        if (type == 1) {
+            long long x;
+            scanf("%lld", &x);
+            push1(x);  // enqueue
+        } else if (type == 2) {
+            if (isEmpty2()) shiftStacks();
+            if (!isEmpty2()) pop2();  // dequeue
+        } else if (type == 3) {
+            if (isEmpty2()) shiftStacks();
+            if (!isEmpty2()) printf("%lld\n", peek2());  // print front
+        }
+    }
+    return 0;
+}
